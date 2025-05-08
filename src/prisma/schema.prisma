@@ -1,0 +1,44 @@
+datasource db {
+    provider = "mysql"
+    url      = "mysql://root:root_password@localhost:3307/ecommerce"
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+model Utilizador {
+    id       String @id @default(uuid())
+    nome     String
+    email    String @unique
+    password String
+
+    produtos Produto[]
+    compras  Compra[]
+
+    createdAt DateTime @default(now())
+}
+
+model Produto {
+    id         String     @id @default(uuid())
+    nome       String
+    descricao  String?
+    preco      Float
+    stock      Int
+    vendedorId String
+    vendedor   Utilizador @relation(fields: [vendedorId], references: [id])
+    createdAt  DateTime   @default(now())
+    Compra     Compra[]
+}
+
+model Compra {
+    id           String @id @default(uuid())
+    utilizadorId String
+    produtoId    String
+    quantidade   Int
+    total        Float
+
+    utilizador Utilizador @relation(fields: [utilizadorId], references: [id])
+    produto    Produto    @relation(fields: [produtoId], references: [id])
+    efetuadaEm DateTime   @default(now())
+}
