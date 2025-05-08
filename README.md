@@ -29,7 +29,8 @@
 
 ```bash
 $ npm install
-$ npx prisma migrate dev
+$ npx prisma migrate dev --name nome
+$ npx prisma migrate deploy
 ```
 
 ## Compile and run the project
